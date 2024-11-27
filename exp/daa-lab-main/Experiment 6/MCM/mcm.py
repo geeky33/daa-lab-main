@@ -46,12 +46,10 @@ def tests():
         [7, 6, 7, 3, 7, 8, 7, 2],
         [7, 9, 7, 5, -7, 10, -7, 3],
         [7, 7],
-        [7, -10, 7, 3, -7, 9, 7, 5],
-        [10],
+        [],
         []
     ]
     for tc in test_cases:
         print(matrix_chain_multiplication(len(tc), tc))
-    
 tests()
 

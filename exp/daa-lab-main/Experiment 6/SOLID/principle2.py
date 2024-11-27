@@ -2,31 +2,31 @@
 Open/Closed Principle
 Definition: A class should be open for extension but closed for modification. 
 """
+#bad design
+class Shape:
+    def area(self, shape):
+        if shape == "circle":
+            return 3.14 * radius * radius
+        elif shape == "rectangle":
+            return length * breadth
 
-from abc import ABC, abstractmethod
-# Abstract base class module 
 
-class Notification(ABC):
-    """Defines an abstract class which can be used as a template for other types of notifications."""
-    @abstractmethod
-    def send(self, message):
-        # Do nothing
+#good design
+class Shape:
+    def area(self):
         pass
 
-class EmailNotification(Notification):
-    """Class for email notifications, inherits from notifications template."""
-    def send(self, message):
-        print("Sending email:", message)
+class Circle(Shape):
+    def __init__(self, radius):
+        self.radius = radius
 
-class SMSNotification(Notification):
-    """Class for SMS notifications, inheritsfrom notifications template."""
-    def send(self, message):
-        print("Sending SMS:", message)
+    def area(self):
+        return 3.14 * self.radius * self.radius
 
+class Rectangle(Shape):
+    def __init__(self, length, breadth):
+        self.length = length
+        self.breadth = breadth
 
-# In here the notification class cannot be modified but can be extended to add new types of notifications.
-
-# Usage
-notifications = [EmailNotification(), SMSNotification()]
-for notifier in notifications:
-    notifier.send("Hello, World!")
+    def area(self):
+        return self.length * self.breadth

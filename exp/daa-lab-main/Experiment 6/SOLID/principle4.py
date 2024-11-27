@@ -1,35 +1,40 @@
-"""
-Interface Segregation Principle
-Definition: A client should never be forced to implement an interface that it does not use, or clients should not be forced to depend on methods they do not use.
-"""
-from abc import ABC, abstractmethod
+#Clients should not be forced to implement interfaces they do not use. Instead of one large interface, break it into smaller, specific ones.
 
-class Printer(ABC):
-    @abstractmethod
-    def print_document(self):
+#Example:
+#Bad Design:
+#A Worker interface with methods not relevant to all types of workers:
+
+class Worker:
+    def work(self):
         pass
 
-class Scanner(ABC):
-    @abstractmethod
-    def scan_document(self):
+    def eat(self):
         pass
 
-class AllInOnePrinter(Printer, Scanner):
-    def print_document(self):
-        print("Printing document")
+class Robot(Worker):
+    def work(self):
+        return "Working"
 
-    def scan_document(self):
-        print("Scanning document")
+    def eat(self):
+        raise NotImplementedError("Robots don't eat")
+#Good Design:
+#Separate the interfaces:
 
-class BasicPrinter(Printer):
-    def print_document(self):
-        print("Printing document")
+class Workable:
+    def work(self):
+        pass
 
-# Here the basic printer does not need to implement the scan_document method as it is not required for its functionality
+class Eatable:
+    def eat(self):
+        pass
 
-# Usage
-aio_printer = AllInOnePrinter()
-basic_printer = BasicPrinter()
-aio_printer.print_document()
-aio_printer.scan_document()
-basic_printer.print_document()
+class Human(Workable, Eatable):
+    def work(self):
+        return "Working"
+
+    def eat(self):
+        return "Eating"
+
+class Robot(Workable):
+    def work(self):
+        return "Working"

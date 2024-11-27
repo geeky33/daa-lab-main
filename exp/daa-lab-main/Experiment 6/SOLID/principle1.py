@@ -3,20 +3,21 @@ Single Responsibility Principle (SPR)
 Definition: A class should have only one reason to change, meaning that a class should have only one job or responsibility.
 """
 
-class OrderProcessor:
-    def process(self, order):
-        print("Processing order:", order)
+#bad design
+class Report:
+    def generate(self):
+        return "Report Data"
 
-class OrderRepository:
-    def save(self, order):
-        print("Saving order to database:", order)
+    def save_to_file(self, data):
+        with open('report.txt', 'w') as f:
+            f.write(data)
+#good design
 
+class Report:
+    def generate(self):
+        return "Report Data"
 
-# Each class only has one responsibility - OrderProcessor processes orders and OrderRepository saves orders to the database.
-
-# Usage
-order = {"id": 1, "items": ["apple", "banana"]}
-processor = OrderProcessor()
-repository = OrderRepository()
-processor.process(order)
-repository.save(order)
+class ReportSaver:
+    def save_to_file(self, data):
+        with open('report.txt', 'w') as f:
+            f.write(data)

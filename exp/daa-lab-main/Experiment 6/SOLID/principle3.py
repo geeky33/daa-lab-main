@@ -2,32 +2,35 @@
 Liskov Substitution Principle
 Definition: Objects of a superclass should be replaceable with objects of its subclasses without affecting the functionality of the program.
 """
-from abc import ABC, abstractmethod
+#Bad Design:
+#A Bird superclass with a fly() method that a subclass Penguin cannot implement:
 
-class Bird(ABC):
-    @abstractmethod
+class Bird:
     def fly(self):
         pass
 
 class Sparrow(Bird):
     def fly(self):
-        print("Sparrow flying")
+        return "Flying"
 
 class Penguin(Bird):
     def fly(self):
-        raise NotImplementedError("Penguins can't fly!")
+        raise NotImplementedError("Penguins can't fly")
+    
+#Good Design:
+#Introduce a more appropriate hierarchy:
 
-def make_bird_fly(bird: Bird):
-    try:
-        bird.fly()
-    except NotImplementedError as e:
-        print(e)
+class Bird:
+    pass
 
-# Usage
-sparrow = Sparrow()
-penguin = Penguin()
-make_bird_fly(sparrow)   
-make_bird_fly(penguin)   
+class FlyingBird(Bird):
+    def fly(self):
+        pass
 
-# In here the function is defined for the 'Bird' type but objects of the sparrow type can also be used in the same function.
-# Objects of the penguin type cannot be used as on calling the 'fly' function an error is thrown
+class Sparrow(FlyingBird):
+    def fly(self):
+        return "Flying"
+
+class Penguin(Bird):
+    def swim(self):
+        return "Swimming"
